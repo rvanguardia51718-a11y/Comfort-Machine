@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comfort Machine — Spin for a boost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="game-page">
+
+  <div class="sky-bg" aria-hidden="true">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+  </div>
+
+  <!-- Top bar: points + bet + category -->
+  <header class="game-topbar">
+    <div class="points-pill">
+      <span class="points-label">Comfort Points</span>
+      <span class="points-value" id="pointsValue">100</span>
+    </div>
+    <div class="bet-pill">
+      <span class="points-label">Current Bet</span>
+      <span class="points-value" id="betValue">10</span>
+    </div>
+    <div class="hearts-pill" id="heartsPill">
+      <span class="points-label">Comfort Hearts</span>
+      <span class="points-value hearts-value" id="heartsValue">0</span>
+      <span class="heart-icon" aria-hidden="true">💗</span>
+    </div>
+    <button class="rewards-btn" id="rewardsBtn" type="button">🎁 Comfort Rewards</button>
+    <button class="sound-toggle-btn" id="soundToggleBtn" type="button" aria-label="Toggle sound">🔊</button>
+  </header>
+
+  <main class="game-stage">
+
+    <!-- LEFT: blue pup + speech bubble -->
+    <section class="side-column left-side">
+      <div class="pup blue-pup small-pup" id="bluePup">
+        <img class="pup-gif" alt="A cute transparent animated puppy waving" loading="lazy"
+             src="assets/gifs/bluey.gif">
+      </div>
+      <div class="speech-bubble bubble-under" id="bluePupBubble">
+        <p id="comfortMessage">You've got this, Pabs!</p>
+      </div>
+    </section>
+
+    <!-- CENTER: 3D slot machine cabinet -->
+    <section class="machine-column">
+      <div class="cabinet">
+
+        <!-- chasing marquee lights -->
+        <div class="marquee-lights" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="cabinet-topper" id="cabinetTopper">
+          <span class="topper-text">✨ COMFORT JACKPOT ✨</span>
+        </div>
+
+        <div class="cabinet-face">
+
+          <div class="glass-window">
+            <div class="reels-row">
+              <div class="reel-slot">
+                <div class="reel" id="reel1"><div class="reel-strip"></div></div>
+              </div>
+              <div class="reel-slot">
+                <div class="reel" id="reel2"><div class="reel-strip"></div></div>
+              </div>
+              <div class="reel-slot">
+                <div class="reel" id="reel3"><div class="reel-strip"></div></div>
+              </div>
+            </div>
+            <div class="payline"></div>
+            <div class="glass-glare" aria-hidden="true"></div>
+          </div>
+
+          <div class="control-deck">
+            <div class="bet-row" id="betRow">
+              <button class="bet-btn" data-bet="5">Bet 5</button>
+              <button class="bet-btn active" data-bet="10">Bet 10</button>
+              <button class="bet-btn" data-bet="20">Bet 20</button>
+            </div>
+
+            <button class="spin-btn" id="spinBtn">
+              <span class="spin-btn-label">SPIN</span>
+              <span class="spin-btn-cost" id="spinCost">Bet: 10 pts</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- pull lever, side-mounted -->
+        <div class="lever-housing" id="leverHousing">
+          <div class="lever-arm" id="lever">
+            <div class="lever-ball"></div>
+          </div>
+        </div>
+
+        <div class="cabinet-base"></div>
+        <div class="cabinet-glow" id="cabinetGlow" aria-hidden="true"></div>
+      </div>
+
+      <p class="machine-footnote" id="footnote">Every spin, win or not, you're still showing up. That counts.</p>
+    </section>
+
+    <!-- RIGHT: orange pup + speech bubble -->
+    <section class="side-column right-side">
+      <div class="pup orange-pup small-pup" id="orangePup">
+        <img class="pup-gif" alt="A cute transparent animated puppy saying hello" loading="lazy"
+             src="assets/gifs/bingo.gif">
+      </div>
+      <div class="speech-bubble bubble-under" id="orangePupBubble">
+        <p id="schoolMessage">I'm cheering for you!</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reward popup modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <h2 class="modal-title" id="modalTitle">COMFORT REWARD</h2>
+      <div class="modal-pup-row">
+        <img class="mini-pup-gif blue-pup" alt="Blue pup cheering" loading="lazy"
+             src="assets/gifs/bluey.gif">
+        <img class="mini-pup-gif orange-pup" alt="Orange pup cheering" loading="lazy"
+             src="assets/gifs/bingo.gif">
+      </div>
+      <p class="modal-result" id="modalResult">Small win</p>
+      <p class="modal-quote" id="modalMessage">"One assignment at a time."</p>
+      <p class="modal-reward" id="modalReward">Reward: +20 Comfort Points</p>
+      <div class="modal-buttons">
+        <button class="modal-btn primary" id="spinAgainBtn">Spin Again</button>
+        <button class="modal-btn secondary" id="continueBtn">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comfort Rewards modal: redeem Comfort Hearts for comforting rewards -->
+  <div class="rewards-overlay" id="rewardsOverlay">
+    <div class="rewards-card">
+      <button class="rewards-close" id="rewardsCloseBtn" aria-label="Close Comfort Rewards">✕</button>
+      <h2 class="rewards-title">💗 Comfort Rewards</h2>
+      <p class="rewards-subtitle">Comfort Hearts are rare — you'll earn them only when you hit the jackpot. Spend them here on comforting rewards — redeem as many times as you like, as long as you can afford it.</p>
+
+      <div class="rewards-progress-block">
+        <div class="rewards-progress-top">
+          <span id="rewardsCurrentHearts">❤️ 0 Comfort Hearts</span>
+          <span id="rewardsNextLabel">Saving for: Virtual Hug (❤️10)</span>
+        </div>
+        <div class="rewards-progress-track">
+          <div class="rewards-progress-fill" id="rewardsProgressFill"></div>
+        </div>
+        <p class="rewards-progress-note" id="rewardsProgressNote">10 hearts to go</p>
+        <p class="rewards-insufficient-msg" id="rewardsInsufficientMsg">You don't have enough Comfort Hearts.</p>
+      </div>
+
+      <div class="rewards-grid" id="rewardsGrid"><!-- populated by script.js --></div>
+
+      <!-- Inline reveal panel for a redeemed reward's confirmation + comforting message -->
+      <div class="reward-reveal" id="rewardReveal">
+        <div class="reward-reveal-icon" id="rewardRevealIcon">❤️</div>
+        <h3 class="reward-reveal-title" id="rewardRevealTitle">Virtual Hug</h3>
+        <p class="reward-reveal-confirm" id="rewardRevealConfirm">✓ Reward Redeemed!</p>
+        <p class="reward-reveal-cost" id="rewardRevealCost">-10 ❤️ Comfort Hearts</p>
+        <p class="reward-reveal-remaining" id="rewardRevealRemaining">Remaining Hearts: 0 ❤️</p>
+        <p class="reward-reveal-message" id="rewardRevealMessage"></p>
+        <img class="reward-reveal-gif" id="rewardRevealGif" alt="A cute animated puppy" loading="lazy" style="display:none;">
+        <button class="modal-btn primary" id="rewardRevealCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jackpot overlay -->
+  <div class="jackpot-overlay" id="jackpotOverlay">
+    <div class="jackpot-banner">
+      <p class="jackpot-title">🎉 JACKPOT! 🎉</p>
+      <p class="jackpot-sub">Future You Bonus!</p>
+      <img class="jackpot-gif" alt="A cute transparent animated puppy dancing" loading="lazy"
+           src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3Vmdnk3bGM5OWdoYzhyaHdyaWk5ZjRoc20yaDBoeGY0cmxsdThubCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/V4ddir9HjkGA9YsZc7/giphy.gif">
+      <p class="jackpot-msg" id="jackpotMsg">Your future self is proud of you.</p>
+      <p class="jackpot-points" id="jackpotPoints">+100 Comfort Points</p>
+      <button class="modal-btn primary jackpot-continue-btn" id="jackpotContinueBtn">Continue</button>
+    </div>
+  </div>
+
+  <!-- Containers for confetti/balloons, populated by JS -->
+  <div class="confetti-layer" id="confettiLayer"></div>
+  <div class="balloon-layer" id="balloonLayer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
